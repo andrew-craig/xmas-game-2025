@@ -24,15 +24,15 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
           {/* Labrador dog */}
           <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-16 h-16 z-10">
             {/* Dog head */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-yellow-700 rounded-full"></div>
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-yellow-300 rounded-full"></div>
             {/* Snout */}
-            <div className="absolute top-6 left-1/2 -translate-x-1/2 w-8 h-6 bg-yellow-600 rounded-full"></div>
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 w-8 h-6 bg-yellow-200 rounded-full"></div>
             {/* Ears */}
-            <div className="absolute top-2 left-0 w-5 h-8 bg-yellow-800 rounded-full"></div>
-            <div className="absolute top-2 right-0 w-5 h-8 bg-yellow-800 rounded-full"></div>
+            <div className="absolute top-2 left-0 w-5 h-8 bg-yellow-500 rounded-full"></div>
+            <div className="absolute top-2 right-0 w-5 h-8 bg-yellow-500 rounded-full"></div>
             {/* Eyes */}
-            <div className="absolute top-4 left-2 w-2 h-2 bg-black rounded-full"></div>
-            <div className="absolute top-4 right-2 w-2 h-2 bg-black rounded-full"></div>
+            <div className="absolute top-4 left-3.5 w-2 h-2 bg-black rounded-full"></div>
+            <div className="absolute top-4 right-3.5 w-2 h-2 bg-black rounded-full"></div>
             {/* Nose */}
             <div className="absolute top-9 left-1/2 -translate-x-1/2 w-2 h-2 bg-black rounded-full"></div>
           </div>
@@ -50,7 +50,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
 
         <button
           onClick={onStart}
-          className="bg-red-600 hover:bg-red-700 text-white font-bold text-xl px-8 py-4 rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95"
+          className="bg-red-600 hover:bg-red-700 text-blue-900 font-bold text-xl px-8 py-4 rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95"
         >
           Get Started
         </button>
