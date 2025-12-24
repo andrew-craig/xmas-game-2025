@@ -45,8 +45,8 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
           </div>
         </div>
 
-        <h1 className="text-4xl font-bold text-white mb-4">Find Santa's Workshop</h1>
-        <p className="text-xl text-white opacity-90 mb-8">Help the Labrador navigate through the waters!</p>
+        <h1 className="text-4xl font-bold text-white mb-4">Help Jessie and Ava find Santa's Workshop</h1>
+        <p className="text-xl text-white opacity-90 mb-8">Navigate the boat through the icebergs to find Santa's workshop.</p>
 
         <button
           onClick={onStart}

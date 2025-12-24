@@ -35,6 +35,19 @@ export function generateMap(mapWidth: number, mapHeight: number): { icebergs: Ic
 
   const randomPlacement = workshopPlacements[Math.floor(Math.random() * workshopPlacements.length)];
 
+  // Create a small iceberg for the workshop
+  const workshopIcebergSize = 120; // Slightly larger than workshop to create a visible base
+  const workshopIceberg: IcebergType = {
+    id: 'workshop-iceberg',
+    position: {
+      x: randomPlacement.x - workshopIcebergSize / 2 + 40, // Center iceberg under workshop (workshop is 80px)
+      y: randomPlacement.y - workshopIcebergSize / 2 + 40,
+    },
+    width: workshopIcebergSize,
+    height: workshopIcebergSize,
+    rotation: Math.random() * 360,
+  };
+
   const workshop: WorkshopType = {
     position: randomPlacement,
     width: 80,
@@ -48,18 +61,21 @@ export function generateMap(mapWidth: number, mapHeight: number): { icebergs: Ic
   // Ensure no icebergs spawn too close to workshop
   const workshopSafeRadius = 120;
 
+  const filteredIcebergs = icebergs.filter(iceberg => {
+    const distToStart = Math.hypot(
+      iceberg.position.x - startPosition.x,
+      iceberg.position.y - startPosition.y
+    );
+    const distToWorkshop = Math.hypot(
+      iceberg.position.x - workshop.position.x,
+      iceberg.position.y - workshop.position.y
+    );
+    return distToStart > safeRadius && distToWorkshop > workshopSafeRadius;
+  });
+
+  // Add the workshop iceberg to the icebergs array
   return {
-    icebergs: icebergs.filter(iceberg => {
-      const distToStart = Math.hypot(
-        iceberg.position.x - startPosition.x,
-        iceberg.position.y - startPosition.y
-      );
-      const distToWorkshop = Math.hypot(
-        iceberg.position.x - workshop.position.x,
-        iceberg.position.y - workshop.position.y
-      );
-      return distToStart > safeRadius && distToWorkshop > workshopSafeRadius;
-    }),
+    icebergs: [...filteredIcebergs, workshopIceberg],
     workshop,
   };
 }

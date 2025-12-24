@@ -4,7 +4,8 @@ import type { GameState } from '../types/game';
 import { generateMap } from '../utils/mapGenerator';
 import { checkBoatIcebergCollision, checkBoatWorkshopCollision } from '../utils/collision';
 
-const BOAT_SPEED = 3;
+const MAX_BOAT_SPEED = 2;
+const BOAT_ACCELERATION = 0.15;
 
 // Calculate map dimensions based on viewport
 const calculateMapDimensions = () => {
@@ -30,7 +31,7 @@ export const Game: React.FC = () => {
         position: { x: MAP_WIDTH / 2, y: MAP_HEIGHT / 2 }, // Start in center
         targetPosition: null,
         rotation: 0,
-        speed: BOAT_SPEED,
+        speed: 0,
       },
       icebergs,
       workshop,
@@ -69,7 +70,21 @@ export const Game: React.FC = () => {
   useEffect(() => {
     const gameLoop = () => {
       setGameState((prev) => {
-        if (prev.gameStatus !== 'playing' || !prev.boat.targetPosition) {
+        if (prev.gameStatus !== 'playing') {
+          return prev;
+        }
+
+        // If no target, decelerate to stop
+        if (!prev.boat.targetPosition) {
+          if (prev.boat.speed > 0) {
+            return {
+              ...prev,
+              boat: {
+                ...prev.boat,
+                speed: Math.max(0, prev.boat.speed - BOAT_ACCELERATION),
+              },
+            };
+          }
           return prev;
         }
 
@@ -77,22 +92,26 @@ export const Game: React.FC = () => {
         const dy = prev.boat.targetPosition.y - prev.boat.position.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
+        // Accelerate towards max speed
+        const newSpeed = Math.min(MAX_BOAT_SPEED, prev.boat.speed + BOAT_ACCELERATION);
+
         // Stop if reached target
-        if (distance < prev.boat.speed) {
+        if (distance < newSpeed) {
           return {
             ...prev,
             boat: {
               ...prev.boat,
               position: prev.boat.targetPosition,
               targetPosition: null,
+              speed: 0,
             },
           };
         }
 
         // Calculate new position
         const angle = Math.atan2(dy, dx);
-        const newX = prev.boat.position.x + Math.cos(angle) * prev.boat.speed;
-        const newY = prev.boat.position.y + Math.sin(angle) * prev.boat.speed;
+        const newX = prev.boat.position.x + Math.cos(angle) * newSpeed;
+        const newY = prev.boat.position.y + Math.sin(angle) * newSpeed;
         const newPosition = { x: newX, y: newY };
 
         // Check collision with icebergs
@@ -105,6 +124,7 @@ export const Game: React.FC = () => {
             boat: {
               ...prev.boat,
               targetPosition: null,
+              speed: 0,
             },
           };
         }
@@ -126,6 +146,7 @@ export const Game: React.FC = () => {
             ...prev.boat,
             position: newPosition,
             rotation,
+            speed: newSpeed,
           },
           gameStatus: reachedWorkshop ? 'won' : prev.gameStatus,
         };
