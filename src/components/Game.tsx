@@ -173,7 +173,7 @@ export const Game: React.FC = () => {
           transform: `translate(-${cameraOffset.x}px, -${cameraOffset.y}px)`,
         }}
       >
-        <Map gameState={gameState} onMapClick={handleMapClick} />
+        <Map gameState={gameState} onMapClick={handleMapClick} cameraOffset={cameraOffset} />
       </div>
 
       {/* Victory overlay */}
