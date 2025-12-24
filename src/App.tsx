@@ -1,21 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { LoadingScreen } from './components/LoadingScreen';
 import { Game } from './components/Game';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [showSplash, setShowSplash] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-
-    return () => clearTimeout(timer);
-  }, []);
+  const handleStart = () => {
+    setShowSplash(false);
+  };
 
   return (
     <div style={{ width: '100%', height: '100vh' }}>
-      {isLoading ? <LoadingScreen /> : <Game />}
+      {showSplash ? <LoadingScreen onStart={handleStart} /> : <Game />}
     </div>
   );
 }

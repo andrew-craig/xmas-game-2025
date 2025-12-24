@@ -5,16 +5,29 @@ import { generateMap } from '../utils/mapGenerator';
 import { checkBoatIcebergCollision, checkBoatWorkshopCollision } from '../utils/collision';
 
 const BOAT_SPEED = 3;
-const MAP_WIDTH = 800;
-const MAP_HEIGHT = 2400; // Tall map so workshop is off-screen initially
+
+// Calculate map dimensions based on viewport
+const calculateMapDimensions = () => {
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  // Map width is 3x viewport width, capped at 2000px
+  const mapWidth = Math.min(viewportWidth * 3, 2000);
+
+  // Map height is also 3x viewport height to create a larger playable area
+  const mapHeight = viewportHeight * 3;
+
+  return { width: mapWidth, height: mapHeight };
+};
 
 export const Game: React.FC = () => {
   const [gameState, setGameState] = useState<GameState>(() => {
+    const { width: MAP_WIDTH, height: MAP_HEIGHT } = calculateMapDimensions();
     const { icebergs, workshop } = generateMap(MAP_WIDTH, MAP_HEIGHT);
 
     return {
       boat: {
-        position: { x: MAP_WIDTH / 2, y: MAP_HEIGHT - 100 },
+        position: { x: MAP_WIDTH / 2, y: MAP_HEIGHT / 2 }, // Start in center
         targetPosition: null,
         rotation: 0,
         speed: BOAT_SPEED,
@@ -35,10 +48,10 @@ export const Game: React.FC = () => {
     const viewportHeight = window.innerHeight;
 
     setCameraOffset({
-      x: Math.max(0, Math.min(gameState.boat.position.x - viewportWidth / 2, MAP_WIDTH - viewportWidth)),
-      y: Math.max(0, Math.min(gameState.boat.position.y - viewportHeight / 2, MAP_HEIGHT - viewportHeight)),
+      x: Math.max(0, Math.min(gameState.boat.position.x - viewportWidth / 2, gameState.mapSize.width - viewportWidth)),
+      y: Math.max(0, Math.min(gameState.boat.position.y - viewportHeight / 2, gameState.mapSize.height - viewportHeight)),
     });
-  }, [gameState.boat.position.x, gameState.boat.position.y]);
+  }, [gameState.boat.position.x, gameState.boat.position.y, gameState.mapSize.width, gameState.mapSize.height]);
 
   const handleMapClick = useCallback((x: number, y: number) => {
     if (gameState.gameStatus !== 'playing') return;

@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const LoadingScreen: React.FC = () => {
+interface LoadingScreenProps {
+  onStart: () => void;
+}
+
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
   return (
     <div className="fixed inset-0 bg-gradient-to-b from-sky-300 to-blue-400 flex items-center justify-center">
       <div className="text-center">
@@ -42,7 +46,14 @@ export const LoadingScreen: React.FC = () => {
         </div>
 
         <h1 className="text-4xl font-bold text-white mb-4">Find Santa's Workshop</h1>
-        <p className="text-xl text-white opacity-90">Loading...</p>
+        <p className="text-xl text-white opacity-90 mb-8">Help the Labrador navigate through the waters!</p>
+
+        <button
+          onClick={onStart}
+          className="bg-red-600 hover:bg-red-700 text-white font-bold text-xl px-8 py-4 rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95"
+        >
+          Get Started
+        </button>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import type { IcebergType, WorkshopType, Position } from '../types/game';
 
 export function generateMap(mapWidth: number, mapHeight: number): { icebergs: IcebergType[], workshop: WorkshopType } {
   const icebergs: IcebergType[] = [];
-  const numIcebergs = Math.floor((mapWidth * mapHeight) / 15000); // Density based on map size
+  const numIcebergs = Math.floor((mapWidth * mapHeight) / 30000); // Density based on map size
 
   // Generate random icebergs
   for (let i = 0; i < numIcebergs; i++) {
@@ -20,19 +20,29 @@ export function generateMap(mapWidth: number, mapHeight: number): { icebergs: Ic
     icebergs.push(iceberg);
   }
 
-  // Place Santa's workshop far from start (top portion of map)
-  // Start is at bottom, so workshop should be in top 30% of map
+  // Place Santa's workshop far from start position
+  // Start is at center, so place workshop in one of the corners/edges
+  const workshopPlacements = [
+    // Top portion
+    { x: mapWidth / 2 + (Math.random() - 0.5) * (mapWidth * 0.4), y: mapHeight * 0.1 + Math.random() * (mapHeight * 0.15) },
+    // Bottom portion
+    { x: mapWidth / 2 + (Math.random() - 0.5) * (mapWidth * 0.4), y: mapHeight * 0.75 + Math.random() * (mapHeight * 0.15) },
+    // Left portion
+    { x: mapWidth * 0.1 + Math.random() * (mapWidth * 0.15), y: mapHeight / 2 + (Math.random() - 0.5) * (mapHeight * 0.4) },
+    // Right portion
+    { x: mapWidth * 0.75 + Math.random() * (mapWidth * 0.15), y: mapHeight / 2 + (Math.random() - 0.5) * (mapHeight * 0.4) },
+  ];
+
+  const randomPlacement = workshopPlacements[Math.floor(Math.random() * workshopPlacements.length)];
+
   const workshop: WorkshopType = {
-    position: {
-      x: mapWidth / 2 + (Math.random() - 0.5) * (mapWidth * 0.4),
-      y: mapHeight * 0.15 + Math.random() * (mapHeight * 0.15), // Between 15% and 30% from top
-    },
+    position: randomPlacement,
     width: 80,
     height: 80,
   };
 
-  // Ensure no icebergs spawn too close to starting position (bottom center)
-  const startPosition: Position = { x: mapWidth / 2, y: mapHeight - 100 };
+  // Ensure no icebergs spawn too close to starting position (center of map)
+  const startPosition: Position = { x: mapWidth / 2, y: mapHeight / 2 };
   const safeRadius = 150;
 
   // Ensure no icebergs spawn too close to workshop
