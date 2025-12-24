@@ -188,7 +188,7 @@ export const Game: React.FC = () => {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+              className="bg-red-600 hover:bg-red-700 text-blue-900 font-bold text-xl px-8 py-4 rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95"
             >
               Play Again
             </button>

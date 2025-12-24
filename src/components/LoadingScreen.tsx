@@ -52,14 +52,14 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
 
         </div>
 
-        <h1 className="text-4xl font-bold text-white mb-4">Help Jessie and Ava find Santa's Workshop</h1>
-        <p className="text-xl text-white opacity-90 mb-8">Navigate the boat through the icebergs to find Santa's workshop.</p>
+        <h1 className="text-2xl font-bold text-white mb-6">Help Jessie and Ava save Santa</h1>
+        <p className="text-xl text-white opacity-90 mb-8">Tap to move the boat and find Santa's workshop amongst the melting ice</p>
 
         <button
           onClick={onStart}
           className="bg-red-600 hover:bg-red-700 text-blue-900 font-bold text-xl px-8 py-4 rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95"
         >
-          Start!
+          Start
         </button>
       </div>
     </div>
