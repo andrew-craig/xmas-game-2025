@@ -11,18 +11,18 @@ interface MapProps {
 
 export const Map: React.FC<MapProps> = ({ gameState, onMapClick, cameraOffset }) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left + cameraOffset.x;
-    const y = e.clientY - rect.top + cameraOffset.y;
+    // Convert viewport coordinates to map coordinates
+    const x = e.clientX + cameraOffset.x;
+    const y = e.clientY + cameraOffset.y;
     onMapClick(x, y);
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const rect = e.currentTarget.getBoundingClientRect();
     const touch = e.touches[0];
-    const x = touch.clientX - rect.left + cameraOffset.x;
-    const y = touch.clientY - rect.top + cameraOffset.y;
+    // Convert viewport coordinates to map coordinates
+    const x = touch.clientX + cameraOffset.x;
+    const y = touch.clientY + cameraOffset.y;
     onMapClick(x, y);
   };
 
