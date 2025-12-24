@@ -8,7 +8,7 @@ interface BoatProps {
 export const Boat: React.FC<BoatProps> = ({ boat }) => {
   return (
     <div
-      className="absolute pointer-events-none transition-all duration-100 ease-linear"
+      className="absolute pointer-events-none"
       style={{
         left: `${boat.position.x}px`,
         top: `${boat.position.y}px`,

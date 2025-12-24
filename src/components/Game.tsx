@@ -171,6 +171,8 @@ export const Game: React.FC = () => {
         className="absolute"
         style={{
           transform: `translate(-${cameraOffset.x}px, -${cameraOffset.y}px)`,
+          transition: 'none',
+          willChange: 'transform',
         }}
       >
         <Map gameState={gameState} onMapClick={handleMapClick} cameraOffset={cameraOffset} />
