@@ -6,13 +6,14 @@ import type { GameState } from '../types/game';
 interface MapProps {
   gameState: GameState;
   onMapClick: (x: number, y: number) => void;
+  cameraOffset: { x: number; y: number };
 }
 
-export const Map: React.FC<MapProps> = ({ gameState, onMapClick }) => {
+export const Map: React.FC<MapProps> = ({ gameState, onMapClick, cameraOffset }) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = e.clientX - rect.left + cameraOffset.x;
+    const y = e.clientY - rect.top + cameraOffset.y;
     onMapClick(x, y);
   };
 
@@ -20,8 +21,8 @@ export const Map: React.FC<MapProps> = ({ gameState, onMapClick }) => {
     e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
     const touch = e.touches[0];
-    const x = touch.clientX - rect.left;
-    const y = touch.clientY - rect.top;
+    const x = touch.clientX - rect.left + cameraOffset.x;
+    const y = touch.clientY - rect.top + cameraOffset.y;
     onMapClick(x, y);
   };
 
