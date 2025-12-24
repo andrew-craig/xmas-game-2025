@@ -59,7 +59,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onStart }) => {
           onClick={onStart}
           className="bg-red-600 hover:bg-red-700 text-blue-900 font-bold text-xl px-8 py-4 rounded-lg shadow-lg transition-all hover:scale-105 active:scale-95"
         >
-          Get Started
+          Start!
         </button>
       </div>
     </div>
