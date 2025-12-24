@@ -8,43 +8,6 @@ interface MapProps {
   onMapClick: (x: number, y: number) => void;
 }
 
-// Generate a rough ice border path with varying thickness (0-15px)
-const generateRoughBorderPath = (width: number, height: number): string => {
-  const points: string[] = [];
-  const maxThickness = 15;
-  const segmentLength = 20; // Create a jagged point every 20px
-
-  // Top edge (left to right)
-  for (let x = 0; x <= width; x += segmentLength) {
-    const thickness = Math.random() * maxThickness;
-    points.push(`${x},${thickness}`);
-  }
-
-  // Right edge (top to bottom)
-  for (let y = 0; y <= height; y += segmentLength) {
-    const thickness = Math.random() * maxThickness;
-    points.push(`${width - thickness},${y}`);
-  }
-
-  // Bottom edge (right to left)
-  for (let x = width; x >= 0; x -= segmentLength) {
-    const thickness = Math.random() * maxThickness;
-    points.push(`${x},${height - thickness}`);
-  }
-
-  // Left edge (bottom to top)
-  for (let y = height; y >= 0; y -= segmentLength) {
-    const thickness = Math.random() * maxThickness;
-    points.push(`${thickness},${y}`);
-  }
-
-  // Create the path: outer rectangle minus inner jagged path
-  const innerPath = `M ${points.join(' L ')} Z`;
-  const outerRect = `M 0,0 L ${width},0 L ${width},${height} L 0,${height} Z`;
-
-  return `${outerRect} ${innerPath}`;
-}
-
 export const Map: React.FC<MapProps> = ({ gameState, onMapClick }) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -76,27 +39,6 @@ export const Map: React.FC<MapProps> = ({ gameState, onMapClick }) => {
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-600 to-transparent animate-pulse"></div>
       </div>
-
-      {/* Rough ice border */}
-      <svg
-        className="absolute inset-0 pointer-events-none"
-        width={gameState.mapSize.width}
-        height={gameState.mapSize.height}
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <filter id="ice-blur">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1" />
-          </filter>
-        </defs>
-        {/* Create a rough border path */}
-        <path
-          d={generateRoughBorderPath(gameState.mapSize.width, gameState.mapSize.height)}
-          fill="white"
-          opacity="0.9"
-          filter="url(#ice-blur)"
-        />
-      </svg>
 
       {/* Icebergs */}
       {gameState.icebergs.map((iceberg) => (

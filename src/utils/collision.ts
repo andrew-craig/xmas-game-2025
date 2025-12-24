@@ -48,6 +48,18 @@ export function checkBoatWorkshopCollision(
   workshopWidth: number,
   workshopHeight: number
 ): boolean {
-  const boatRadius = 20;
-  return checkCircleRectCollision(boatPos, boatRadius, workshopPos, workshopWidth, workshopHeight);
+  // Calculate center of workshop
+  const workshopCenterX = workshopPos.x + workshopWidth / 2;
+  const workshopCenterY = workshopPos.y + workshopHeight / 2;
+
+  // Calculate distance from boat to workshop center
+  const dx = boatPos.x - workshopCenterX;
+  const dy = boatPos.y - workshopCenterY;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  // Win if boat is within 100 pixels of the workshop center
+  // This allows the boat to win by getting close to the iceberg with the workshop
+  const proximityRadius = 100;
+
+  return distance <= proximityRadius;
 }
