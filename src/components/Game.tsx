@@ -27,7 +27,7 @@ export const Game: React.FC = () => {
   });
 
   const [cameraOffset, setCameraOffset] = useState({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
 
   // Center camera on boat
   useEffect(() => {
