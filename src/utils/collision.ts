@@ -23,7 +23,7 @@ export function checkBoatIcebergCollision(
   boatPos: Position,
   icebergs: IcebergType[]
 ): IcebergType | null {
-  const boatRadius = 20; // Approximate boat hitbox radius
+  const boatRadius = 12; // Approximate boat hitbox radius (reduced for smaller boat)
 
   for (const iceberg of icebergs) {
     if (
